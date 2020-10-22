@@ -58,10 +58,10 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         
         
         
-        foreach (var VARIABLE in m_texturePool)
-        {
-            Debug.Log(VARIABLE.name);
-        }
+        // foreach (var VARIABLE in m_texturePool)
+        // {
+        //     Debug.Log(VARIABLE.name);
+        // }
         
         if (trackBinding != null && m_texturePool.Count != 0)
         {
@@ -89,7 +89,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
            
             if (clip.start <= m_Director.time && m_Director.time <= clip.start + clip.duration )
             {
-                Debug.Log($"{inputWeight} : {playableBehaviour.camera.name}");
+                // Debug.Log($"{inputWeight} : {playableBehaviour.camera.name}");
                 
                 // if(inputWeight >= 1f) trackBinding.SetRenderTexture02(m_texturePool.Last());
                 
