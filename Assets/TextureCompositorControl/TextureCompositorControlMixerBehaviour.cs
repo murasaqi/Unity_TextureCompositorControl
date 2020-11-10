@@ -41,18 +41,18 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
         
         
-        if (m_Clips.Last().start < m_Director.time)
-        {
-            for(int i = 0; i < m_Clips.Count(); i++)
-            {
-                var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
-                var playableBehaviour = scriptPlayable.GetBehaviour();
-                playableBehaviour.camera.gameObject.SetActive(false);
-
-            }
-            return;
-
-        }
+        // if (m_Clips.Last().start < m_Director.time)
+        // {
+        //     for(int i = 0; i < m_Clips.Count(); i++)
+        //     {
+        //         var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
+        //         var playableBehaviour = scriptPlayable.GetBehaviour();
+        //         playableBehaviour.camera.gameObject.SetActive(false);
+        //
+        //     }
+        //     return;
+        //
+        // }
         
         
         m_texturePool.Clear();
