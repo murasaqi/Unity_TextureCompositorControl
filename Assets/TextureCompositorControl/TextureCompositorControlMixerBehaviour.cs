@@ -1,8 +1,9 @@
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Timeline;
 public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 {
@@ -111,14 +112,26 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                     if (i > inputPort + 1)
                     {
                         _playableBehaviour.camera.gameObject.SetActive(false);
+                        if (_playableBehaviour.camera.GetComponent<PostProcessLayer>())
+                        {
+                            _playableBehaviour.camera.GetComponent<PostProcessLayer>().enabled = false;
+                        }
                     }
                     else if(i < inputPort -1)
                     {
                         _playableBehaviour.camera.gameObject.SetActive(false);
+                        if (_playableBehaviour.camera.GetComponent<PostProcessLayer>())
+                        {
+                            _playableBehaviour.camera.GetComponent<PostProcessLayer>().enabled = false;
+                        }
                     }
                     else
                     {
                         _playableBehaviour.camera.gameObject.SetActive(true);
+                        if (_playableBehaviour.camera.GetComponent<PostProcessLayer>())
+                        {
+                            _playableBehaviour.camera.GetComponent<PostProcessLayer>().enabled = true;
+                        }
                     }
                     
                 }
