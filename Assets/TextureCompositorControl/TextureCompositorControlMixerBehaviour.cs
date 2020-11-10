@@ -28,6 +28,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
     // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
+        var currentClipIndex = 0;
         TextureCompositorManager trackBinding = playerData as TextureCompositorManager;
 
         if (!trackBinding)
@@ -48,8 +49,6 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
             if (clip.start <= m_Director.time && m_Director.time < clip.start + clip.duration)
             {
-                
-                
                 m_texturePool.Add(playableBehaviour.camera.targetTexture);
             }
             inputPort++;
@@ -113,9 +112,9 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                         }
                     }  
                 }
-                
-                
-                
+
+
+                currentClipIndex = inputPort;
                 break;
                 
             }
@@ -124,8 +123,29 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
             // m_preClip = clip;
             inputPort++;
         }
-        
-        
+
+        var i = 0;
+        foreach (var c in clips)
+        {
+            var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
+            var playableBehaviour = scriptPlayable.GetBehaviour();
+
+            if (i > currentClipIndex + 1)
+            {
+                playableBehaviour.camera.gameObject.SetActive(false);
+            }
+            else if(i < currentClipIndex -1)
+            {
+                playableBehaviour.camera.gameObject.SetActive(false);
+            }
+            else
+            {
+                playableBehaviour.camera.gameObject.SetActive(true);
+            }
+
+                i++;
+
+        }
 
         // for (int i = 0; i < inputCount; i++)
         // {
