@@ -317,8 +317,8 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 19.883333333333333
     m_ClipIn: 0
-    m_Asset: {fileID: -898359875652635725}
-    m_Duration: 7.333333333333333
+    m_Asset: {fileID: 5811129551531683602}
+    m_Duration: 5
     m_TimeScale: 1
     m_ParentTrack: {fileID: -6808278027765936826}
     m_EaseInDuration: 0
@@ -382,9 +382,10 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: CameraB
+    m_DisplayName: CameraE
   m_Markers:
     m_Objects: []
+  performanceMode: 0
 --- !u!114 &-3595630383839652824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -408,23 +409,6 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects: []
---- !u!114 &-898359875652635725
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3c069c910e30ad45b887a93decfb97a, type: 3}
-  m_Name: TextureCompositorControlClip(Clone)
-  m_EditorClassIdentifier: 
-  template:
-    camera: {fileID: 0}
-  camera:
-    exposedName: 51240696dcc1550419c13979f730e714
-    defaultValue: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,4 +479,21 @@ MonoBehaviour:
     camera: {fileID: 0}
   camera:
     exposedName: cb2c0998131d254429b7638d37a65ddd
+    defaultValue: {fileID: 0}
+--- !u!114 &5811129551531683602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c069c910e30ad45b887a93decfb97a, type: 3}
+  m_Name: TextureCompositorControlClip
+  m_EditorClassIdentifier: 
+  template:
+    camera: {fileID: 0}
+  camera:
+    exposedName: abb494cd3cc87dd42a545932f185bf51
     defaultValue: {fileID: 0}

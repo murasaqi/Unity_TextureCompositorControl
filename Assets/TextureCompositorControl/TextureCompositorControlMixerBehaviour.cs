@@ -11,12 +11,19 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
     private IEnumerable<TimelineClip> m_Clips;
     private PlayableDirector m_Director;
 
+    private TextureCompositorControlTrack m_track;
     // private TimelineClip m_preClip = null;
     
     internal PlayableDirector director
     {
         get { return m_Director; }
         set { m_Director = value; }
+    }
+    
+    internal TextureCompositorControlTrack track
+    {
+        get { return m_track; }
+        set { m_track = value; }
     }
 
     internal IEnumerable<TimelineClip> clips
@@ -25,11 +32,13 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         set { m_Clips = value; }
     }
 
+    
     private List<RenderTexture> m_texturePool =new List<RenderTexture>();
     // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
         // var currentClipIndex = 0;
+        
         TextureCompositorManager trackBinding = playerData as TextureCompositorManager;
 
         if (!trackBinding)
@@ -39,20 +48,23 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         
         int inputPort = 0;
 
-        
-        
-        if (m_Clips.Last().start+m_Clips.Last().duration < m_Director.time)
+
+        if (track.performanceMode)
         {
-            for(int i = 0; i < m_Clips.Count(); i++)
+            if (m_Clips.Last().start+m_Clips.Last().duration < m_Director.time)
             {
-                var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
-                var playableBehaviour = scriptPlayable.GetBehaviour();
-                playableBehaviour.camera.gameObject.SetActive(false);
+                for(int i = 0; i < m_Clips.Count(); i++)
+                {
+                    var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
+                    var playableBehaviour = scriptPlayable.GetBehaviour();
+                    playableBehaviour.camera.gameObject.SetActive(false);
 
-            }
-            return;
+                }
+                return;
 
+            }     
         }
+       
         
         
         m_texturePool.Clear();
@@ -104,27 +116,29 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
            
             if (clip.start <= m_Director.time && m_Director.time <= clip.start + clip.duration )
             {
-                
-                for(int i = 0; i < m_Clips.Count(); i++)
+                if (m_track.performanceMode)
                 {
-                    var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
-                    var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                    _playableBehaviour.camera.gameObject.SetActive(false);
+                    for(int i = 0; i < m_Clips.Count(); i++)
+                    {
+                        var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
+                        var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                        _playableBehaviour.camera.gameObject.SetActive(false);
 
-                }
+                    }
 
-                if (inputPort - 1 > 0)
-                {
-                    var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort-1);
-                    var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                    _playableBehaviour.camera.gameObject.SetActive(true);
-                }
-                
-                if (inputPort + 1 < m_Clips.Count())
-                {
-                    var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort+1);
-                    var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                    _playableBehaviour.camera.gameObject.SetActive(true);
+                    if (inputPort - 1 > 0)
+                    {
+                        var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort-1);
+                        var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                        _playableBehaviour.camera.gameObject.SetActive(true);
+                    }
+                    
+                    if (inputPort + 1 < m_Clips.Count())
+                    {
+                        var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort+1);
+                        var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                        _playableBehaviour.camera.gameObject.SetActive(true);
+                    }
                 }
                 
                 

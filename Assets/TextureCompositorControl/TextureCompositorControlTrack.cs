@@ -5,8 +5,10 @@ using UnityEngine.Timeline;
 [TrackColor(0.8700427f, 0.4803044f, 0.790566f)]
 [TrackClipType(typeof(TextureCompositorControlClip))]
 [TrackBindingType(typeof(TextureCompositorManager))]
+
 public class TextureCompositorControlTrack : TrackAsset
 {
+    public bool performanceMode = false;
     public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
     {
         var playableDirector = go.GetComponent<PlayableDirector>();
@@ -17,6 +19,7 @@ public class TextureCompositorControlTrack : TrackAsset
         {
             playableBehaviour.director = playableDirector;
             playableBehaviour.clips = GetClips();
+            playableBehaviour.track = this;
         }
 
         return playable;
