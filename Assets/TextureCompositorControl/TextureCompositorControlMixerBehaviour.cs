@@ -41,18 +41,18 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
         
         
-        // if (m_Clips.Last().start < m_Director.time)
-        // {
-        //     for(int i = 0; i < m_Clips.Count(); i++)
-        //     {
-        //         var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
-        //         var playableBehaviour = scriptPlayable.GetBehaviour();
-        //         playableBehaviour.camera.gameObject.SetActive(false);
-        //
-        //     }
-        //     return;
-        //
-        // }
+        if (m_Clips.Last().start+m_Clips.Last().duration < m_Director.time)
+        {
+            for(int i = 0; i < m_Clips.Count(); i++)
+            {
+                var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
+                var playableBehaviour = scriptPlayable.GetBehaviour();
+                playableBehaviour.camera.gameObject.SetActive(false);
+
+            }
+            return;
+
+        }
         
         
         m_texturePool.Clear();
@@ -104,38 +104,31 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
            
             if (clip.start <= m_Director.time && m_Director.time <= clip.start + clip.duration )
             {
+                
                 for(int i = 0; i < m_Clips.Count(); i++)
                 {
                     var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
                     var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                    _playableBehaviour.camera.gameObject.SetActive(false);
 
-                    if (i > inputPort + 1)
-                    {
-                        _playableBehaviour.camera.gameObject.SetActive(false);
-                        if (_playableBehaviour.camera.GetComponent<PostProcessLayer>())
-                        {
-                            _playableBehaviour.camera.GetComponent<PostProcessLayer>().enabled = false;
-                        }
-                    }
-                    else if(i < inputPort -1)
-                    {
-                        _playableBehaviour.camera.gameObject.SetActive(false);
-                        if (_playableBehaviour.camera.GetComponent<PostProcessLayer>())
-                        {
-                            _playableBehaviour.camera.GetComponent<PostProcessLayer>().enabled = false;
-                        }
-                    }
-                    else
-                    {
-                        _playableBehaviour.camera.gameObject.SetActive(true);
-                        if (_playableBehaviour.camera.GetComponent<PostProcessLayer>())
-                        {
-                            _playableBehaviour.camera.GetComponent<PostProcessLayer>().enabled = true;
-                        }
-                    }
-                    
+                }
+
+                if (inputPort - 1 > 0)
+                {
+                    var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort-1);
+                    var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                    _playableBehaviour.camera.gameObject.SetActive(true);
                 }
                 
+                if (inputPort + 1 < m_Clips.Count())
+                {
+                    var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort+1);
+                    var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                    _playableBehaviour.camera.gameObject.SetActive(true);
+                }
+                
+                
+                playableBehaviour.camera.gameObject.SetActive(true);
                 var initializedTime = (m_Director.time - clip.start) / clip.duration;
                 trackBinding.fader = inputWeight;//Mathf.Clamp(playableBehaviour.curve.Evaluate((float) initializedTime),0,1);
                 if (trackBinding.probeController != null)
@@ -181,4 +174,9 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         //     
         // }
     }
+
+    // private void AllCameraDisable()
+    // {
+    //     
+    // }
 }
