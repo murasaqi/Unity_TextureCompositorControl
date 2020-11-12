@@ -9,6 +9,7 @@ using UnityEngine.Timeline;
 public class TextureCompositorControlTrack : TrackAsset
 {
     public bool performanceMode = false;
+    public RenderTexture referenceRenderTextureSetting;
     public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
     {
         var playableDirector = go.GetComponent<PlayableDirector>();
