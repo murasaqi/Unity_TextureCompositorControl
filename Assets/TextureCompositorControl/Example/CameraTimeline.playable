@@ -255,7 +255,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 0.8333333333333339
-    m_BlendOutDuration: -1
+    m_BlendOutDuration: 0.5
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -315,7 +315,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CameraD
   - m_Version: 1
-    m_Start: 19.883333333333333
+    m_Start: 19.383333333333333
     m_ClipIn: 0
     m_Asset: {fileID: 5811129551531683602}
     m_Duration: 5
@@ -323,7 +323,7 @@ MonoBehaviour:
     m_ParentTrack: {fileID: -6808278027765936826}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: -1
+    m_BlendInDuration: 0.5
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -385,7 +385,7 @@ MonoBehaviour:
     m_DisplayName: CameraE
   m_Markers:
     m_Objects: []
-  performanceMode: 0
+  performanceMode: 1
 --- !u!114 &-3595630383839652824
 MonoBehaviour:
   m_ObjectHideFlags: 1

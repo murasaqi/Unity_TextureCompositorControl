@@ -126,12 +126,12 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
                     }
 
-                    if (inputPort - 1 > 0)
-                    {
-                        var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort-1);
-                        var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                        _playableBehaviour.camera.gameObject.SetActive(true);
-                    }
+                    // if (inputPort - 1 > 0)
+                    // {
+                    //     var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort-1);
+                    //     var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                    //     _playableBehaviour.camera.gameObject.SetActive(true);
+                    // }
                     
                     if (inputPort + 1 < m_Clips.Count())
                     {
