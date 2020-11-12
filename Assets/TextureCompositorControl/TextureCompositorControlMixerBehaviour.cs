@@ -101,6 +101,17 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
         
         inputPort = 0;
+        if (m_track.performanceMode)
+        {
+            for(int i = 0; i < m_Clips.Count(); i++)
+            {
+                var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
+                var _playableBehaviour = _scriptPlayable.GetBehaviour();
+                // Debug.Log(_playableBehaviour.camera.name);
+                if(_playableBehaviour.camera != null)_playableBehaviour.camera.gameObject.SetActive(false);
+
+            }
+        }
 
         
         foreach (TimelineClip clip in m_Clips)
@@ -118,26 +129,12 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
             {
                 if (m_track.performanceMode)
                 {
-                    for(int i = 0; i < m_Clips.Count(); i++)
-                    {
-                        var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
-                        var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                        _playableBehaviour.camera.gameObject.SetActive(false);
-
-                    }
-
-                    // if (inputPort - 1 > 0)
-                    // {
-                    //     var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort-1);
-                    //     var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                    //     _playableBehaviour.camera.gameObject.SetActive(true);
-                    // }
                     
                     if (inputPort + 1 < m_Clips.Count())
                     {
                         var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort+1);
                         var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                        _playableBehaviour.camera.gameObject.SetActive(true);
+                        if(_playableBehaviour.camera != null)_playableBehaviour.camera.gameObject.SetActive(true);
                     }
                 }
                 
