@@ -12,11 +12,13 @@ using UnityEngine.Timeline;
 public class TextureCompositorControlTrack : TrackAsset
 {
     public bool performanceMode = false;
-    public RenderTexture referenceRenderTextureSetting;
+    // public RenderTexture referenceRenderTextureSetting;
 
-    // private List<RenderTexture> m_texturePool;
+    public RenderTexture textureA;
+    public RenderTexture textureB;
+    private List<RenderTexture> m_texturePool;
 
-    public List<RenderTexture> texturePool;
+    public List<RenderTexture> texturePool => m_texturePool;
 
     public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
     {
@@ -44,20 +46,14 @@ public class TextureCompositorControlTrack : TrackAsset
     {
        KillRenderTexturePool();
 
-        if(texturePool == null) texturePool = new List<RenderTexture>();
-        if (referenceRenderTextureSetting != null)
+        if(m_texturePool == null) m_texturePool = new List<RenderTexture>();
+        if (textureA != null && textureB != null)
         {
-            while(texturePool.Count()< 2)
-            {
-                texturePool.Add(new RenderTexture(referenceRenderTextureSetting));
-            }
+           
+            m_texturePool.Clear();
 
-            int i = 0;
-            foreach (var t in texturePool)
-            {
-                t.name = i.ToString();
-                i++;
-            }
+            m_texturePool.Add(textureA);
+            m_texturePool.Add(textureB);
         }
         else
         {

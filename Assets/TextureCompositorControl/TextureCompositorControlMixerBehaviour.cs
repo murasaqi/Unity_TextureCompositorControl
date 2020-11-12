@@ -51,10 +51,10 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
         if (track.performanceMode)
         {
-            if (track.texturePool == null || track.texturePool.Count() < 2)
-            {
+            // if (track.texturePool == null || track.texturePool.Count() < 2)
+            // {
                 track.InitTexturePools();
-            }
+            // }
             if (m_Clips.Last().start+m_Clips.Last().duration < m_Director.time)
             {
                 for(int i = 0; i < m_Clips.Count(); i++)
@@ -80,7 +80,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
             var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort);
             var playableBehaviour = scriptPlayable.GetBehaviour();
 
-            if (playableBehaviour.camera != null) playableBehaviour.camera.targetTexture = track.referenceRenderTextureSetting;
+            // if (playableBehaviour.camera != null) playableBehaviour.camera.targetTexture = track.referenceRenderTextureSetting;
             if (clip.start <= m_Director.time && m_Director.time < clip.start + clip.duration)
             {
                 playableBehaviour.camera.targetTexture = track.texturePool[updateClipCount];
