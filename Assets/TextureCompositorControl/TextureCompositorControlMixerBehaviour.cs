@@ -51,6 +51,10 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
         if (track.performanceMode)
         {
+            if (track.texturePool == null || track.texturePool.Count() < 2)
+            {
+                track.InitTexturePools();
+            }
             if (m_Clips.Last().start+m_Clips.Last().duration < m_Director.time)
             {
                 for(int i = 0; i < m_Clips.Count(); i++)
@@ -68,6 +72,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         
         
         m_texturePool.Clear();
+        var updateClipCount = 0;
         foreach (TimelineClip clip in m_Clips)
         {
             var inputWeight = playable.GetInputWeight(inputPort);
@@ -75,9 +80,12 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
             var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort);
             var playableBehaviour = scriptPlayable.GetBehaviour();
 
+            if (playableBehaviour.camera != null) playableBehaviour.camera.targetTexture = track.referenceRenderTextureSetting;
             if (clip.start <= m_Director.time && m_Director.time < clip.start + clip.duration)
             {
+                playableBehaviour.camera.targetTexture = track.texturePool[updateClipCount];
                 m_texturePool.Add(playableBehaviour.camera.targetTexture);
+                updateClipCount++;
             }
             inputPort++;
         
@@ -85,10 +93,6 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         
         
         
-        // foreach (var VARIABLE in m_texturePool)
-        // {
-        //     Debug.Log(VARIABLE.name);
-        // }
         
         if (trackBinding != null && m_texturePool.Count != 0)
         {
@@ -185,6 +189,8 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         //     
         // }
     }
+    
+    
 
     // private void AllCameraDisable()
     // {
