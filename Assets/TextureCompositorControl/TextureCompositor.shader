@@ -59,7 +59,7 @@ Shader "Unlit/TextureCompositor"
                 // sample texture and return it
                 fixed4 colA = tex2D(_MainTexA, i.uv);
                 fixed4 colB = tex2D(_MainTexB, i.uv);
-                return lerp(colA,colB,_Fader);
+                return lerp(colA,colB,1.0-_Fader);
             }
             ENDCG
         }

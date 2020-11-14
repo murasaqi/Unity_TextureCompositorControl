@@ -67,7 +67,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                     count++;
                    
                     var cam = GameObject.Find(clip.displayName);
-                     if (cam.name !=null)
+                     if (cam!=null)
                     {
                         var serializedObject = new SerializedObject(clip.asset, director);
                         var serializedProperty = serializedObject.FindProperty("camera");
