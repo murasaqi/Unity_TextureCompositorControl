@@ -14,9 +14,12 @@ public class TextureCompositorControlTrack : TrackAsset
     public bool performanceMode = false;
     // public RenderTexture referenceRenderTextureSetting;
 
-    public RenderTexture textureA;
-    public RenderTexture textureB;
+    [SerializeField] private RenderTexture m_textureA;
+    [SerializeField] private RenderTexture m_textureB;
     private List<RenderTexture> m_texturePool;
+
+    public RenderTexture textureA => m_textureA;
+    public RenderTexture textureB => m_textureB;
 
     public List<RenderTexture> texturePool => m_texturePool;
 
