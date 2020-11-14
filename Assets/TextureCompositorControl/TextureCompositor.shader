@@ -12,6 +12,8 @@ Shader "Unlit/TextureCompositor"
     }
     SubShader
     {
+        Tags { "RenderType"="Opaque" }
+        LOD 100
         Pass
         {
             CGPROGRAM
@@ -20,39 +22,38 @@ Shader "Unlit/TextureCompositor"
             // use "frag" function as the pixel (fragment) shader
             #pragma fragment frag
 
-            // vertex shader inputs
+            #pragma multi_compile_fog
+
+            #include "UnityCG.cginc"
+
             struct appdata
             {
-                float4 vertex : POSITION; // vertex position
-                float2 uv : TEXCOORD0; // texture coordinate
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
             };
 
-            // vertex shader outputs ("vertex to fragment")
             struct v2f
             {
-                float2 uv : TEXCOORD0; // texture coordinate
-                float4 vertex : SV_POSITION; // clip space position
+                float2 uv : TEXCOORD0;
+                UNITY_FOG_COORDS(1)
+                float4 vertex : SV_POSITION;
             };
-
+            sampler2D _MainTexA;
+            sampler2D _MainTexB;
+            float4 _MainTexA_ST;
+            float4 _MainTexB_ST;
+            float _Fader;
             // vertex shader
             v2f vert (appdata v)
             {
                 v2f o;
-                // transform position to clip space
-                // (multiply with model*view*projection matrix)
+              
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                // just pass the texture coordinate
-                o.uv = v.uv;
+                o.uv = TRANSFORM_TEX(v.uv, _MainTexA);
+                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
             
-            // texture we will sample
-            sampler2D _MainTexA;
-            sampler2D _MainTexB;
-            float _Fader;
-
-            // pixel shader; returns low precision ("fixed4" type)
-            // color ("SV_Target" semantic)
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample texture and return it

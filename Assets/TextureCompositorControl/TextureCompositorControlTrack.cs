@@ -11,7 +11,7 @@ using UnityEngine.Timeline;
 
 public class TextureCompositorControlTrack : TrackAsset
 {
-    public bool performanceMode = false;
+    public bool findMissingCameraInHierarchy = false;
     // public RenderTexture referenceRenderTextureSetting;
 
     [SerializeField] private RenderTexture m_textureA;
@@ -55,8 +55,8 @@ public class TextureCompositorControlTrack : TrackAsset
            
             m_texturePool.Clear();
 
-            m_texturePool.Add(textureA);
-            m_texturePool.Add(textureB);
+            m_texturePool.Add(m_textureA);
+            m_texturePool.Add(m_textureB);
         }
         else
         {
