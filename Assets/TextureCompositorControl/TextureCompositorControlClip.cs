@@ -36,7 +36,7 @@ public class TextureCompositorControlClip : PlayableAsset, ITimelineClipAsset
         return playable;
         
     }
-
+    
     
     private void OnDestroy()
     {

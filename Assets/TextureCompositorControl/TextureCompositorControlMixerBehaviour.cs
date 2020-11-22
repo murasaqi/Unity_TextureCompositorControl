@@ -51,20 +51,45 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 
 
         int i = 0;
-        var count = 0;
         foreach (TimelineClip clip in m_Clips)
         {
             var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
             var playableBehaviour = scriptPlayable.GetBehaviour();
-            
-            if (playableBehaviour.camera == null || clip.displayName != playableBehaviour.camera.name)
+            playableBehaviour.camera.enabled = false;
+            i++;
+        }
+
+        i = 0;
+        // var missingCameraCount = 0;
+        if (m_track.findMissingCameraInHierarchy)
+        {
+           
+            var timelineAsset = director.playableAsset as TimelineAsset;
+            var fps = timelineAsset != null ? timelineAsset.editorSettings.fps : 60;
+            foreach (var clip in m_Clips)
             {
-                if (m_track.findMissingCameraInHierarchy)
+                var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
+                var playableBehaviour = scriptPlayable.GetBehaviour();
+
+                var missing = false;
+                if (playableBehaviour.camera == null)
                 {
-                    count++;
-                   
+                    Debug.Log($"<color=#DA70D6>[frame: {Mathf.CeilToInt((float)clip.start*fps )} clip: {clip.displayName}] Camera reference is null.</color>");
+                    missing = true;
+                }
+
+                if (clip.displayName != playableBehaviour.camera.name)
+                {
+                    Debug.Log($"<color=#9370DB>[frame: {Mathf.CeilToInt((float)clip.start*fps )} clip: {clip.displayName}] Name does not match the camera</color>");
+                    missing = true;
+                }
+                
+                
+                if (missing && m_track.fixMissingPrefabByCameraName)
+                {
+                    
                     var cam = GameObject.Find(clip.displayName);
-                     if (cam!=null)
+                    if (cam!=null)
                     {
                         var serializedObject = new SerializedObject(clip.asset, director);
                         var serializedProperty = serializedObject.FindProperty("camera");
@@ -73,18 +98,14 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                         // playableBehaviour.camera = cam.GetComponent<Camera>();
                         if(cam.GetComponent<Camera>())serializedProperty.exposedReferenceValue = cam.GetComponent<Camera>();
                         serializedObject.ApplyModifiedProperties();
+                        Debug.Log($"<color=#00BFFF>Fix {clip.displayName}</color>");
                     }
                 }
-                else
-                {
-                    if(!m_track.findMissingCameraInHierarchy)playableBehaviour.camera.gameObject.SetActive(false);
-                }
 
+                i++;
             }
-
-            i++;
+           
         }
-        if(m_track.findMissingCameraInHierarchy)Debug.Log($"Detect missing camera count: {count}");
         int inputPort = 0;
         
         foreach (TimelineClip clip in m_Clips)
@@ -103,7 +124,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                 if (playableBehaviour.camera != null)
                 {
                     // Debug.Log(playableBehaviour.camera.name);
-                    playableBehaviour.camera.gameObject.SetActive(true);
+                    playableBehaviour.camera.enabled = true;
                     playableBehaviour.camera.targetTexture = track.texturePool.First();
                 }
 
@@ -113,13 +134,13 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                     var _playableBehaviour = _scriptPlayable.GetBehaviour();
                     if (_playableBehaviour.camera != null)
                     {
-                        _playableBehaviour.camera.gameObject.SetActive(true);
+                        _playableBehaviour.camera.enabled = true;
                         _playableBehaviour.camera.targetTexture = track.texturePool.Last();
                     }
                 }
                 
                 
-                playableBehaviour.camera.gameObject.SetActive(true);
+                playableBehaviour.camera.enabled = true;
                 var initializedTime = (m_Director.time - clip.start) / clip.duration;
                 trackBinding.fader = inputWeight;//Mathf.Clamp(playableBehaviour.curve.Evaluate((float) initializedTime),0,1);
                 if (trackBinding.probeController != null)

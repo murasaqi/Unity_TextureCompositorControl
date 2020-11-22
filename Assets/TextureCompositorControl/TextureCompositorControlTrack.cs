@@ -12,6 +12,7 @@ using UnityEngine.Timeline;
 public class TextureCompositorControlTrack : TrackAsset
 {
     public bool findMissingCameraInHierarchy = false;
+    public bool fixMissingPrefabByCameraName = false;
     // public RenderTexture referenceRenderTextureSetting;
 
     [SerializeField] private RenderTexture m_textureA;
