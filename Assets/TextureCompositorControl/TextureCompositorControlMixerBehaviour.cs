@@ -56,11 +56,8 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         {
             var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
             var playableBehaviour = scriptPlayable.GetBehaviour();
-            if (playableBehaviour.camera != null)
-            {
-                if(!m_track.findMissingCameraInHierarchy)playableBehaviour.camera.gameObject.SetActive(false);
-            }
-            else
+            
+            if (playableBehaviour.camera == null || clip.displayName != playableBehaviour.camera.name)
             {
                 if (m_track.findMissingCameraInHierarchy)
                 {
@@ -78,7 +75,10 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                         serializedObject.ApplyModifiedProperties();
                     }
                 }
-                
+                else
+                {
+                    if(!m_track.findMissingCameraInHierarchy)playableBehaviour.camera.gameObject.SetActive(false);
+                }
 
             }
 
