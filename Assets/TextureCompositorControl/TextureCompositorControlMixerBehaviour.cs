@@ -55,7 +55,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         {
             var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
             var playableBehaviour = scriptPlayable.GetBehaviour();
-            playableBehaviour.camera.enabled = false;
+            if(playableBehaviour.camera != null)playableBehaviour.camera.enabled = false;
             i++;
         }
 
@@ -77,12 +77,16 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                     Debug.Log($"<color=#DA70D6>[frame: {Mathf.CeilToInt((float)clip.start*fps )} clip: {clip.displayName}] Camera reference is null.</color>");
                     missing = true;
                 }
-
-                if (clip.displayName != playableBehaviour.camera.name)
+                else
                 {
-                    Debug.Log($"<color=#9370DB>[frame: {Mathf.CeilToInt((float)clip.start*fps )} clip: {clip.displayName}] Name does not match the camera</color>");
-                    missing = true;
+                      if (clip.displayName != playableBehaviour.camera.name)
+                                    {
+                                        Debug.Log($"<color=#9370DB>[frame: {Mathf.CeilToInt((float)clip.start*fps )} clip: {clip.displayName}] Name does not match the camera</color>");
+                                        missing = true;
+                                    }
                 }
+
+              
                 
                 
                 if (missing && m_track.fixMissingPrefabByCameraName)
