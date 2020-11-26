@@ -60,6 +60,8 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         }
 
         i = 0;
+
+#if UNITY_EDITOR
         // var missingCameraCount = 0;
         if (m_track.findMissingCameraInHierarchy)
         {
@@ -86,9 +88,8 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                                     }
                 }
 
-              
-                
-                
+
+
                 if (missing && m_track.fixMissingPrefabByCameraName)
                 {
                     
@@ -110,6 +111,8 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
             }
            
         }
+
+#endif
         int inputPort = 0;
         
         foreach (TimelineClip clip in m_Clips)
