@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Rendering.PostProcessing;
+// using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Timeline;
 public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 {
@@ -47,7 +47,7 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         
         trackBinding.SetRenderTexture01(track.textureA);
         trackBinding.SetRenderTexture02(track.textureB);
-        var updateClipCount = 0;
+        // var updateClipCount = 0;
 
 
         int i = 0;
