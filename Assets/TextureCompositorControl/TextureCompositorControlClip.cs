@@ -14,6 +14,8 @@ public class TextureCompositorControlClip : PlayableAsset, ITimelineClipAsset
     // public ExposedReference<Camera> camera02;
     // public ExposedReference<ReflectionProbe> reflectionProbe;    
     // public AnimationCurve curve;
+
+    // public bool wiggle = false;
     public ClipCaps clipCaps
     {
         get { return ClipCaps.Blending; }

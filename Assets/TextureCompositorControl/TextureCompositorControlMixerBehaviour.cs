@@ -123,10 +123,12 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
             var scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort);
             var playableBehaviour = scriptPlayable.GetBehaviour();
 
-            
-           
+
+            var isWiggle = false;
             if (clip.start <= m_Director.time && m_Director.time <= clip.start + clip.duration )
             {
+
+                if (playableBehaviour.wiggle) isWiggle = playableBehaviour.wiggle;
                     
                 if (playableBehaviour.camera != null)
                 {
@@ -169,16 +171,24 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                     }  
                 }
 
+                if (isWiggle)
+                {
+                    trackBinding.UpdateWiggler((float)director.time);
+                }
+                else
+                {
+                    trackBinding.DisableWiggler((float)director.time);
+                }
 
                 // currentClipIndex = inputPort;
                 break;
                 
             }
-
-
-            // m_preClip = clip;
             inputPort++;
         }
+        
+       
+        
 
        
 

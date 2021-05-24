@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     camera: {fileID: 0}
+    wiggle: 0
   camera:
     exposedName: 421cc219fd3a80842a5edd25c61e24f0
     defaultValue: {fileID: 0}
@@ -102,49 +103,13 @@ MonoBehaviour:
     m_BlendOutDuration: 1.416666666666666
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -277,9 +242,10 @@ MonoBehaviour:
     m_DisplayName: CameraE
   m_Markers:
     m_Objects: []
-  performanceMode: 1
-  referenceRenderTextureSetting: {fileID: 8400000, guid: b371cce9af3c59b46be6bbec2aee3fe4,
-    type: 2}
+  findMissingCameraInHierarchy: 0
+  fixMissingPrefabByCameraName: 0
+  m_textureA: {fileID: 8400000, guid: 2d35b5740aae8ff4d9e27e4e4e1839ad, type: 2}
+  m_textureB: {fileID: 8400000, guid: 2d2b636948b0c974ab05099645d64470, type: 2}
 --- !u!114 &-3595630383839652824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -321,6 +287,7 @@ MonoBehaviour:
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
+    m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: -3595630383839652824}
 --- !u!114 &3725860483837083170
@@ -337,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     camera: {fileID: 0}
+    wiggle: 0
   camera:
     exposedName: 3072d423c7884fb4b8513b897a1125e9
     defaultValue: {fileID: 0}
@@ -354,6 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     camera: {fileID: 0}
+    wiggle: 1
   camera:
     exposedName: 384eb563b7282f0489e255dcd56d0ecb
     defaultValue: {fileID: 0}
@@ -371,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     camera: {fileID: 0}
+    wiggle: 0
   camera:
     exposedName: cb2c0998131d254429b7638d37a65ddd
     defaultValue: {fileID: 0}
@@ -388,6 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     camera: {fileID: 0}
+    wiggle: 0
   camera:
     exposedName: abb494cd3cc87dd42a545932f185bf51
     defaultValue: {fileID: 0}

@@ -11,6 +11,7 @@ public class TextureCompositorControlBehaviour : PlayableBehaviour
     // public string name;
     // public ReflectionProbe reflectionProbe;
     // public AnimationCurve curve;
+    public bool wiggle;
     public override void OnPlayableCreate (Playable playable)
     {
        
