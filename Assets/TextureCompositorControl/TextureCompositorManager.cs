@@ -9,7 +9,7 @@ public class TextureCompositorManager : MonoBehaviour
 
     public ReflectionProbeController probeController;
 
-    public CanvasImageWiggler canvasImageWiggler;
+    // public CanvasImageWiggler canvasImageWiggler;
     // public RenderTexture IN01;
     // public RenderTexture IN02;
     // [Range(0, 1)] public float fader; 
@@ -31,23 +31,23 @@ public class TextureCompositorManager : MonoBehaviour
         
     }
 
-    public void UpdateWiggler(float time)
-    {
-        if (canvasImageWiggler != null)
-        {
-            canvasImageWiggler.UpdateWiggle(time);
-            canvasImageWiggler.power = 1;
-        }
-    }
-
-    public void DisableWiggler(float time)
-    {
-        if (canvasImageWiggler != null)
-        {
-            canvasImageWiggler.power = 0f;
-            canvasImageWiggler.UpdateWiggle(time);
-        }
-    }
+    // public void UpdateWiggler(float time)
+    // {
+    //     if (canvasImageWiggler != null)
+    //     {
+    //         canvasImageWiggler.UpdateWiggle(time);
+    //         canvasImageWiggler.power = 1;
+    //     }
+    // }
+    //
+    // public void DisableWiggler(float time)
+    // {
+    //     if (canvasImageWiggler != null)
+    //     {
+    //         canvasImageWiggler.power = 0f;
+    //         canvasImageWiggler.UpdateWiggle(time);
+    //     }
+    // }
     public void SetRenderTexture01(RenderTexture tex)
     {
         // IN01 = tex;

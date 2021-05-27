@@ -6,12 +6,13 @@ using UnityEngine.Timeline;
 [Serializable]
 public class TextureCompositorControlBehaviour : PlayableBehaviour
 {
-    [SerializeField] public Camera camera;
-    // public Camera camera01;
-    // public string name;
-    // public ReflectionProbe reflectionProbe;
-    // public AnimationCurve curve;
     public bool wiggle;
+    [HideInInspector][SerializeField] public Camera camera;
+    [SerializeField] public Vector2 noiseSeed;
+    [SerializeField] public Vector2 noiseScale;
+    [SerializeField] public float roughness;
+    [SerializeField] public Vector2 wiggleRange;
+   
     public override void OnPlayableCreate (Playable playable)
     {
        
