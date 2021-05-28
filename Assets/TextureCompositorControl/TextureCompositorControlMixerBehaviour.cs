@@ -6,12 +6,14 @@ using UnityEngine;
 using UnityEngine.Playables;
 // using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
+
 public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
 {
     
-    private IEnumerable<TimelineClip> m_Clips;
+    private List<TimelineClip> m_Clips;
     private PlayableDirector m_Director;
-
+    private Material m_CompositeMaterial;
     private TextureCompositorControlTrack m_track;
     // private TimelineClip m_preClip = null;
     
@@ -27,28 +29,28 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
         set { m_track = value; }
     }
 
-    internal IEnumerable<TimelineClip> clips
+    internal List<TimelineClip> clips
     {
         get { return m_Clips; }
         set { m_Clips = value; }
     }
 
-    
+    public Material compositeMaterial
+    {
+        get => m_CompositeMaterial;
+        set => m_CompositeMaterial = value;
+    }
+
+    public RawImage rawImage;
+
+
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
-        // var currentClipIndex = 0;
-        
-        TextureCompositorManager trackBinding = playerData as TextureCompositorManager;
-
-        if (!trackBinding)
+        if (!compositeMaterial)
             return;
-        
-        
-        
-        trackBinding.SetRenderTexture01(track.textureA);
-        trackBinding.SetRenderTexture02(track.textureB);
-        // var updateClipCount = 0;
 
+        compositeMaterial.SetFloat("_PlayableDirectorTime",(float)director.time);
+        
 
         int i = 0;
         foreach (TimelineClip clip in m_Clips)
@@ -81,11 +83,11 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
                 }
                 else
                 {
-                      if (clip.displayName != playableBehaviour.camera.name)
-                                    {
-                                        Debug.Log($"<color=#9370DB>[frame: {Mathf.CeilToInt((float)clip.start*fps )} clip: {clip.displayName}] Name does not match the camera</color>");
-                                        missing = true;
-                                    }
+                    if (clip.displayName != playableBehaviour.camera.name)
+                    {
+                        Debug.Log($"<color=#9370DB>[frame: {Mathf.CeilToInt((float)clip.start*fps )} clip: {clip.displayName}] Name does not match the camera</color>");
+                        missing = true;
+                    }
                 }
 
 
@@ -124,90 +126,94 @@ public class TextureCompositorControlMixerBehaviour : PlayableBehaviour
             var playableBehaviour = scriptPlayable.GetBehaviour();
 
 
-            var isWiggle = false;
             if (clip.start <= m_Director.time && m_Director.time <= clip.start + clip.duration )
             {
-
-                if (playableBehaviour.wiggle) isWiggle = playableBehaviour.wiggle;
+                // if (playableBehaviour.wiggle) isWiggle = playableBehaviour.wiggle;
                     
                 if (playableBehaviour.camera != null)
                 {
                     // Debug.Log(playableBehaviour.camera.name);
                     playableBehaviour.camera.enabled = true;
-                    playableBehaviour.camera.targetTexture = track.texturePool.First();
+                    playableBehaviour.camera.targetTexture = track.textureA;
+                    
                 }
 
                 if (inputPort + 1 < m_Clips.Count())
                 {
+                    var nextClip = m_Clips.ToList()[inputPort + 1];
                     var _scriptPlayable =  (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(inputPort+1);
                     var _playableBehaviour = _scriptPlayable.GetBehaviour();
-                    if (_playableBehaviour.camera != null)
+                    
+                    
+                    if (nextClip.start <= m_Director.time && m_Director.time <= nextClip.start + clip.duration )
                     {
                         _playableBehaviour.camera.enabled = true;
-                        _playableBehaviour.camera.targetTexture = track.texturePool.Last();
-                    }
-                }
-                
-                
-                playableBehaviour.camera.enabled = true;
-                var initializedTime = (m_Director.time - clip.start) / clip.duration;
-                trackBinding.fader = inputWeight;//Mathf.Clamp(playableBehaviour.curve.Evaluate((float) initializedTime),0,1);
-                if (trackBinding.probeController != null)
-                {
-                    if (trackBinding.fader < 0.5)
-                    {
-                    
-                        if (trackBinding.probeController.cam.name != playableBehaviour.camera.name)
-                        {
-                            trackBinding.probeController.cam = playableBehaviour.camera;
-                        }
+                        _playableBehaviour.camera.targetTexture = track.textureB;
+                        compositeMaterial.SetTexture("_TextureA",track.textureA);
+                        var offsetPositionA = new Vector2(
+                            playableBehaviour.offsetPosition.x / rawImage.rectTransform.rect.width,
+                            playableBehaviour.offsetPosition.y / rawImage.rectTransform.rect.height);
+                        compositeMaterial.SetFloat("_WigglePowerA",playableBehaviour.wiggle ? 1f:0f);
+                        compositeMaterial.SetVector("_NoiseSeedA",playableBehaviour.noiseSeed);
+                        compositeMaterial.SetVector("_NoiseScaleA",playableBehaviour.noiseScale);
+                        compositeMaterial.SetFloat("_TimeScaleA",playableBehaviour.roughness);
+                        compositeMaterial.SetVector("_RangeA",playableBehaviour.wiggleRange/100f);
+                        compositeMaterial.SetVector("_OffsetPositionA",offsetPositionA);
+
+                        
+                        var offsetPositionB = new Vector2(
+                            _playableBehaviour.offsetPosition.x / rawImage.rectTransform.rect.width,
+                            _playableBehaviour.offsetPosition.y / rawImage.rectTransform.rect.height);
+                        compositeMaterial.SetTexture("_TextureB",track.textureB);
+                        compositeMaterial.SetFloat("_WigglePowerB",_playableBehaviour.wiggle ? 1f:0f);
+                        compositeMaterial.SetVector("_NoiseSeedB",_playableBehaviour.noiseSeed);
+                        compositeMaterial.SetVector("_NoiseScaleB",_playableBehaviour.noiseScale);
+                        compositeMaterial.SetFloat("_TimeScaleB",_playableBehaviour.roughness);
+                        compositeMaterial.SetVector("_RangeB",_playableBehaviour.wiggleRange/100f);
+                        compositeMaterial.SetFloat("_CrossFade", 1f-inputWeight);
+                        compositeMaterial.SetVector("_OffsetPositionB",offsetPositionB);
                     }
                     else
                     {
-                        if (trackBinding.probeController.cam.name != playableBehaviour.camera.name)
-                        {
-                            trackBinding.probeController.cam = playableBehaviour.camera;
-                        }
-                    }  
-                }
-
-                if (isWiggle)
-                {
-                    trackBinding.UpdateWiggler((float)director.time);
+                        compositeMaterial.SetTexture("_TextureA",track.textureA);
+                        compositeMaterial.SetFloat("_WigglePowerA",playableBehaviour.wiggle ? 1f:0f);
+                        compositeMaterial.SetTexture("_TextureB",track.textureA);
+                        compositeMaterial.SetFloat("_WigglePowerB",playableBehaviour.wiggle ? 1f:0f);
+                        compositeMaterial.SetFloat("_CrossFade", inputWeight);
+                        
+                        var offsetPositionA = new Vector2(
+                            playableBehaviour.offsetPosition.x / rawImage.rectTransform.rect.width,
+                            playableBehaviour.offsetPosition.y / rawImage.rectTransform.rect.height);
+                        
+                        compositeMaterial.SetFloat("_WigglePowerA",playableBehaviour.wiggle ? 1f:0f);
+                        compositeMaterial.SetVector("_NoiseSeedA",playableBehaviour.noiseSeed);
+                        compositeMaterial.SetVector("_NoiseScaleA",playableBehaviour.noiseScale);
+                        compositeMaterial.SetFloat("_TimeScaleA",playableBehaviour.roughness);
+                        compositeMaterial.SetVector("_RangeA",playableBehaviour.wiggleRange/100f);
+                        compositeMaterial.SetVector("_OffsetPositionA",offsetPositionA);
+                        
+                        compositeMaterial.SetFloat("_WigglePowerB",playableBehaviour.wiggle ? 1f:0f);
+                        compositeMaterial.SetVector("_NoiseSeedB",playableBehaviour.noiseSeed);
+                        compositeMaterial.SetVector("_NoiseScaleB",playableBehaviour.noiseScale);
+                        compositeMaterial.SetFloat("_TimeScaleB",playableBehaviour.roughness);
+                        compositeMaterial.SetVector("_RangeB",playableBehaviour.wiggleRange/100f);
+                        compositeMaterial.SetVector("_OffsetPositionB",offsetPositionA);
+                    }
+                   
                 }
                 else
                 {
-                    trackBinding.DisableWiggler((float)director.time);
+                    
                 }
 
-                // currentClipIndex = inputPort;
+                // Debug.Log($"<color=#00BFFF>{inputWeight} {clip.displayName}</color>");
                 break;
                 
             }
             inputPort++;
         }
         
-       
         
-
-       
-
-        // for (int i = 0; i < inputCount; i++)
-        // {
-        //     float inputWeight = playable.GetInputWeight(i);
-        //     ScriptPlayable<TextureCompositorControlBehaviour> inputPlayable = (ScriptPlayable<TextureCompositorControlBehaviour>)playable.GetInput(i);
-        //     TextureCompositorControlBehaviour input = inputPlayable.GetBehaviour ();
-        //     
-        //     
-        //     // Use the above variables to process each frame of this playable.
-        //     
-        // }
     }
     
-    
-
-    // private void AllCameraDisable()
-    // {
-    //     
-    // }
 }

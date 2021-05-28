@@ -4,17 +4,18 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-
+using UnityEngine.UI;
+[Serializable]
 [TrackColor(0.8700427f, 0.4803044f, 0.790566f)]
 [TrackClipType(typeof(TextureCompositorControlClip))]
-[TrackBindingType(typeof(TextureCompositorManager))]
+// [TrackBindingType(typeof(TextureCompositorManager))]
 
 public class TextureCompositorControlTrack : TrackAsset
 {
     public bool findMissingCameraInHierarchy = false;
     public bool fixMissingPrefabByCameraName = false;
     // public RenderTexture referenceRenderTextureSetting;
-
+    [SerializeField] public ExposedReference<RawImage> m_rawImage;
     [SerializeField] private RenderTexture m_textureA;
     [SerializeField] private RenderTexture m_textureB;
     private List<RenderTexture> m_texturePool;
@@ -22,27 +23,31 @@ public class TextureCompositorControlTrack : TrackAsset
     public RenderTexture textureA => m_textureA;
     public RenderTexture textureB => m_textureB;
 
-    public List<RenderTexture> texturePool => m_texturePool;
+    // public RawImage rawImage;
 
+    public List<RenderTexture> texturePool => m_texturePool;
+    
     public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
     {
         var playableDirector = go.GetComponent<PlayableDirector>();
         var playable = ScriptPlayable<TextureCompositorControlMixerBehaviour>.Create (graph, inputCount);
         var playableBehaviour = playable.GetBehaviour();
-
-       
+        playableBehaviour.rawImage = m_rawImage.Resolve(graph.GetResolver());
+        playableBehaviour.compositeMaterial = m_rawImage.Resolve(graph.GetResolver()).material;
 
        InitTexturePools();
+
+       // if(m_compositeMat)playableBehaviour.compositeMaterial = m_compositeMat;
        
         
         if (playableDirector != null)
         {
             playableBehaviour.director = playableDirector;
-            playableBehaviour.clips = GetClips();
+            playableBehaviour.clips = GetClips().ToList();
             playableBehaviour.track = this;
         }
 
-        return playable;
+        return playable;    
         // return ScriptPlayable<TextureCompositorControlMixerBehaviour>.Create (graph, inputCount);
     }
 
