@@ -110,12 +110,12 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PlayableDirectorTime: 3.1
+    - _PlayableDirectorTime: 4.133333
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TimeScaleA: 0.35
-    - _TimeScaleB: 0.35
+    - _TimeScaleA: 0.1
+    - _TimeScaleB: 0.1
     - _UVSec: 0
     - _WigglePowerA: 1
     - _WigglePowerB: 1
@@ -127,14 +127,17 @@ Material:
     - Vector2_3: {r: 0.13, g: 0.03, b: 0, a: 0}
     - Vector2_85d14bb10d4647948d9689a1f356f36a: {r: 0.33, g: 0.26, b: 0, a: 0}
     - Vector2_8702686b77fe47e6bee7286a126dc481: {r: 0.45, g: 0.54, b: 0, a: 0}
+    - Vector2_c2165efa7c654798af5072cb642b261e: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _NoiseScaleA: {r: 1.22, g: 2.18, b: 0, a: 0}
-    - _NoiseScaleB: {r: 1.22, g: 2.18, b: 0, a: 0}
+    - _NoiseScaleA: {r: 1.5, g: 1.57, b: 0, a: 0}
+    - _NoiseScaleB: {r: 1.5, g: 1.57, b: 0, a: 0}
     - _NoiseSeedA: {r: 0.36, g: 0.43, b: 0, a: 0}
     - _NoiseSeedB: {r: 0.36, g: 0.43, b: 0, a: 0}
-    - _RangeA: {r: 0.02, g: 0.1, b: 0, a: 0}
-    - _RangeB: {r: 0.02, g: 0.1, b: 0, a: 0}
+    - _OffsetPositionA: {r: 0.016567707, g: 0, b: 0, a: 0}
+    - _OffsetPositionB: {r: 0.016567707, g: 0, b: 0, a: 0}
+    - _RangeA: {r: 0.0232, g: 0.024, b: 0, a: 0}
+    - _RangeB: {r: 0.0232, g: 0.024, b: 0, a: 0}
     - _noiseSeedA: {r: 0.46, g: 0.36, b: 0, a: 0}
     - _noiseSeedB: {r: 0.45, g: 0.3, b: 0, a: 0}
   m_BuildTextureStacks: []

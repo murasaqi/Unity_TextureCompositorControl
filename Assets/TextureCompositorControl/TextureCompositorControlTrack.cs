@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [Serializable]
 [TrackColor(0.8700427f, 0.4803044f, 0.790566f)]
 [TrackClipType(typeof(TextureCompositorControlClip))]
-[TrackBindingType(typeof(TextureCompositorManager))]
+// [TrackBindingType(typeof(TextureCompositorManager))]
 
 public class TextureCompositorControlTrack : TrackAsset
 {
@@ -32,7 +32,7 @@ public class TextureCompositorControlTrack : TrackAsset
         var playableDirector = go.GetComponent<PlayableDirector>();
         var playable = ScriptPlayable<TextureCompositorControlMixerBehaviour>.Create (graph, inputCount);
         var playableBehaviour = playable.GetBehaviour();
-
+        playableBehaviour.rawImage = m_rawImage.Resolve(graph.GetResolver());
         playableBehaviour.compositeMaterial = m_rawImage.Resolve(graph.GetResolver()).material;
 
        InitTexturePools();

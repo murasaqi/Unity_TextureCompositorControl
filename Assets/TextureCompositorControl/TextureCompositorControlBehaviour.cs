@@ -12,6 +12,7 @@ public class TextureCompositorControlBehaviour : PlayableBehaviour
     [SerializeField] public Vector2 noiseScale;
     [SerializeField] public float roughness;
     [SerializeField] public Vector2 wiggleRange;
+    [SerializeField] public Vector2 offsetPosition;
    
     public override void OnPlayableCreate (Playable playable)
     {

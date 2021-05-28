@@ -19,6 +19,7 @@ MonoBehaviour:
     noiseScale: {x: 0, y: 0}
     roughness: 0
     wiggleRange: {x: 0, y: 0}
+    offsetPosition: {x: 0, y: 0}
   camera:
     exposedName: 421cc219fd3a80842a5edd25c61e24f0
     defaultValue: {fileID: 0}
@@ -80,7 +81,25 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -313,9 +332,10 @@ MonoBehaviour:
     wiggle: 1
     camera: {fileID: 0}
     noiseSeed: {x: 0.27, y: 0.21}
-    noiseScale: {x: 0.72, y: 0.38}
-    roughness: 0.59
-    wiggleRange: {x: 0.09, y: 0.03}
+    noiseScale: {x: 0.72, y: 0.47}
+    roughness: 1.01
+    wiggleRange: {x: 3.17, y: 2.95}
+    offsetPosition: {x: 0, y: 0}
   camera:
     exposedName: 3072d423c7884fb4b8513b897a1125e9
     defaultValue: {fileID: 0}
@@ -335,9 +355,10 @@ MonoBehaviour:
     wiggle: 1
     camera: {fileID: 0}
     noiseSeed: {x: 0.36, y: 0.43}
-    noiseScale: {x: 1.22, y: 2.18}
-    roughness: 0.35
-    wiggleRange: {x: 0.02, y: 0.1}
+    noiseScale: {x: 1.5, y: 1.57}
+    roughness: 0.1
+    wiggleRange: {x: 2.32, y: 2.4}
+    offsetPosition: {x: 0, y: 0}
   camera:
     exposedName: 384eb563b7282f0489e255dcd56d0ecb
     defaultValue: {fileID: 0}
@@ -360,6 +381,7 @@ MonoBehaviour:
     noiseScale: {x: 0, y: 0}
     roughness: 0
     wiggleRange: {x: 0, y: 0}
+    offsetPosition: {x: 0, y: 0}
   camera:
     exposedName: cb2c0998131d254429b7638d37a65ddd
     defaultValue: {fileID: 0}
@@ -382,6 +404,7 @@ MonoBehaviour:
     noiseScale: {x: 0, y: 0}
     roughness: 0
     wiggleRange: {x: 0, y: 0}
+    offsetPosition: {x: 0, y: 0}
   camera:
     exposedName: abb494cd3cc87dd42a545932f185bf51
     defaultValue: {fileID: 0}
